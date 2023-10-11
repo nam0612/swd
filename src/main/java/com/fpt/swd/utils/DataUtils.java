@@ -40,4 +40,12 @@ public class DataUtils {
     public static boolean isArrayNullOrEmpty(Object obj1) {
         return obj1 == null || ((Object[])obj1).length == 0;
     }
+
+    public static String safeToString(Object obj1) {
+        return safeToString(obj1, "");
+    }
+
+    public static String safeToString(Object obj1, String defaultValue) {
+        return obj1 == null ? defaultValue : obj1.toString();
+    }
 }
