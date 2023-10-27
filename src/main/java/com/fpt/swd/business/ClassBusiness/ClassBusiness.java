@@ -1,13 +1,17 @@
 package com.fpt.swd.business.ClassBusiness;
 
+import com.fpt.swd.Response.APIResponse;
 import com.fpt.swd.database.dto.Class.AddNewClasDto;
 import com.fpt.swd.database.dto.Class.GetClassDto;
 import com.fpt.swd.database.dto.Class.UpdateClassDto;
-import com.fpt.swd.database.entity.APIResponse;
 import com.fpt.swd.database.entity.Class;
 import com.fpt.swd.database.repo.IClassRepository;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -25,16 +29,23 @@ public class ClassBusiness implements IClassBusiness {
     }
 
     @Override
-    public APIResponse<Iterable<GetClassDto>> GetAllClass() {
-        var dbClass = _classRepository.findAll();
+    public APIResponse<Iterable<GetClassDto>> GetAllClass(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<Class> dbClass = _classRepository.findAll(pageable);
         var serviceResponse = new APIResponse<Iterable<GetClassDto>>();
-        serviceResponse.Data = dbClass.stream().map(c -> _mapper.map(c, GetClassDto.class)).toList();
+        serviceResponse.Data = dbClass.getContent().stream().map(c -> _mapper.map(c, GetClassDto.class)).toList();
+        serviceResponse.pagination.pageNo = dbClass.getNumber();
+        serviceResponse.pagination.pageSize = dbClass.getSize();
+        serviceResponse.pagination.totalElements = dbClass.getTotalElements();
+        serviceResponse.pagination.totalPages = dbClass.getTotalPages();
         return serviceResponse;
     }
 
     @Override
+    @Transactional
     public APIResponse<Iterable<GetClassDto>> AddNewClass(AddNewClasDto requestClassDto) {
         var serviceResponse = new APIResponse<Iterable<GetClassDto>>();
+        serviceResponse.pagination = null;
         var dbClass = _classRepository.findAll().stream().filter(c -> Objects.equals(c.getName(), requestClassDto.getName())).findFirst();
         if (dbClass.isPresent()) {
             serviceResponse.status = false;
@@ -51,7 +62,8 @@ public class ClassBusiness implements IClassBusiness {
     @Override
     public APIResponse<GetClassDto> UpdateClass(UpdateClassDto requestClassDto) {
         var serviceResponse = new APIResponse<GetClassDto>();
-        Optional<Class> findClass = _classRepository.findClassById(requestClassDto.getId());
+        serviceResponse.pagination = null;
+        Optional<Class> findClass = _classRepository.findById(requestClassDto.getId());
         if (findClass.isPresent()) {
             Class existingClass = findClass.get();
             _mapper.map(requestClassDto, existingClass);
@@ -68,7 +80,9 @@ public class ClassBusiness implements IClassBusiness {
     @Override
     public APIResponse<GetClassDto> GetClass(int classId) {
         var serviceResponse = new APIResponse<GetClassDto>();
-        Optional<Class> responseClass = _classRepository.findClassById(classId);
+        serviceResponse.pagination = null;
+        Optional<Class> responseClass = _classRepository.findById(classId);
+        serviceResponse.pagination = null;
         if (responseClass.isPresent()) {
             serviceResponse.Data = _mapper.map(responseClass.get(), GetClassDto.class);
         } else {
@@ -82,7 +96,8 @@ public class ClassBusiness implements IClassBusiness {
     @Override
     public APIResponse<Iterable<GetClassDto>> RemoveClass(int classId) {
         var serviceResponse = new APIResponse<Iterable<GetClassDto>>();
-        Optional<Class> responseClass = _classRepository.findClassById(classId);
+        serviceResponse.pagination = null;
+        Optional<Class> responseClass = _classRepository.findById(classId);
         if (responseClass.isPresent()) {
             Class classObj = responseClass.get();
             _classRepository.delete(classObj);

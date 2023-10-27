@@ -3,11 +3,11 @@ package com.fpt.swd.business.ClassBusiness;
 import com.fpt.swd.database.dto.Class.AddNewClasDto;
 import com.fpt.swd.database.dto.Class.GetClassDto;
 import com.fpt.swd.database.dto.Class.UpdateClassDto;
-import com.fpt.swd.database.entity.APIResponse;
+import com.fpt.swd.Response.APIResponse;
 
 public interface IClassBusiness {
 
-    APIResponse<Iterable<GetClassDto>> GetAllClass();
+    APIResponse<Iterable<GetClassDto>> GetAllClass(int pageNo, int pageSize);
 
     APIResponse<Iterable<GetClassDto>> AddNewClass(AddNewClasDto requestClassDto);
 

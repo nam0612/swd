@@ -21,7 +21,7 @@ public class ClassStudent {
     private int id;
     private int class_id;
     private int student_id;
-    private boolean status;
+    private byte status;
     private String created_by;
     private Date created_date;
     private String updated_by;

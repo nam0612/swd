@@ -9,7 +9,4 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface IClassStudentRepository extends JpaRepository<ClassStudent, Integer> {
-    @Query("update ClassStudent e set e.status = :status where e.id = :id")
-    Optional<ClassStudent> UpdateStatus(@Param("id") Integer id, @Param("status") boolean status);
-}
+public interface IClassStudentRepository extends JpaRepository<ClassStudent, Integer> { }

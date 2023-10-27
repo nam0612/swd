@@ -3,11 +3,14 @@ package com.fpt.swd.business.ClassStudentBusiness;
 import com.fpt.swd.database.dto.ClassStudent.AddNewClassStudentDto;
 import com.fpt.swd.database.dto.ClassStudent.GetClassStudentDto;
 import com.fpt.swd.database.dto.ClassStudent.UpdateClassStudentDto;
-import com.fpt.swd.database.entity.APIResponse;
+import com.fpt.swd.Response.APIResponse;
 import com.fpt.swd.database.entity.ClassStudent;
 import com.fpt.swd.database.repo.IClassStudentRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -24,10 +27,15 @@ public class ClassStudentBusiness implements IClassStudentBusiness {
     }
 
     @Override
-    public APIResponse<Iterable<GetClassStudentDto>> GetAllClassStudent() {
-        var dbClassStudent = _classStudentRepository.findAll();
+    public APIResponse<Iterable<GetClassStudentDto>> GetAllClassStudent(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<ClassStudent> dbClassStudent = _classStudentRepository.findAll(pageable);
         var serviceResponse = new APIResponse<Iterable<GetClassStudentDto>>();
-        serviceResponse.Data = dbClassStudent.stream().map(cs -> _mapper.map(cs, GetClassStudentDto.class)).toList();
+        serviceResponse.Data = dbClassStudent.getContent().stream().map(cs -> _mapper.map(cs, GetClassStudentDto.class)).toList();
+        serviceResponse.pagination.pageNo = dbClassStudent.getNumber();
+        serviceResponse.pagination.pageSize = dbClassStudent.getSize();
+        serviceResponse.pagination.totalElements = dbClassStudent.getTotalElements();
+        serviceResponse.pagination.totalPages = dbClassStudent.getTotalPages();
         return serviceResponse;
     }
 
@@ -37,12 +45,14 @@ public class ClassStudentBusiness implements IClassStudentBusiness {
         ClassStudent newClassStudent = _mapper.map(requestClassStudentDto, ClassStudent.class);
         _classStudentRepository.save(newClassStudent);
         serviceResponse.Data = _classStudentRepository.findAll().stream().map(cs -> _mapper.map(cs, GetClassStudentDto.class)).toList();
+        serviceResponse.pagination = null;
         return serviceResponse;
     }
 
     @Override
     public APIResponse<GetClassStudentDto> UpdateClassStudent(UpdateClassStudentDto requestClassStudentDto) {
         var serviceResponse = new APIResponse<GetClassStudentDto>();
+        serviceResponse.pagination = null;
         Optional<ClassStudent> findClassStudent = _classStudentRepository.findById(requestClassStudentDto.getId());
         if (findClassStudent.isPresent()) {
             ClassStudent existingClassStudent = findClassStudent.get();
@@ -60,6 +70,7 @@ public class ClassStudentBusiness implements IClassStudentBusiness {
     @Override
     public APIResponse<GetClassStudentDto> GetClassStudent(int classStudentId) {
         var serviceResponse = new APIResponse<GetClassStudentDto>();
+        serviceResponse.pagination = null;
         Optional<ClassStudent> responseClassStudent = _classStudentRepository.findById(classStudentId);
         if (responseClassStudent.isPresent()) {
             serviceResponse.Data = _mapper.map(responseClassStudent.get(), GetClassStudentDto.class);
@@ -74,6 +85,7 @@ public class ClassStudentBusiness implements IClassStudentBusiness {
     @Override
     public APIResponse<Iterable<GetClassStudentDto>> RemoveClassStudent(int classStudentId) {
         var serviceResponse = new APIResponse<Iterable<GetClassStudentDto>>();
+        serviceResponse.pagination = null;
         Optional<ClassStudent> responseClassStudent = _classStudentRepository.findById(classStudentId);
         if (responseClassStudent.isPresent()) {
             ClassStudent classStudentObj = responseClassStudent.get();

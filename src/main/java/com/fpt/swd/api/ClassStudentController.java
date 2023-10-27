@@ -4,7 +4,7 @@ import com.fpt.swd.business.ClassStudentBusiness.IClassStudentBusiness;
 import com.fpt.swd.database.dto.ClassStudent.AddNewClassStudentDto;
 import com.fpt.swd.database.dto.ClassStudent.GetClassStudentDto;
 import com.fpt.swd.database.dto.ClassStudent.UpdateClassStudentDto;
-import com.fpt.swd.database.entity.APIResponse;
+import com.fpt.swd.Response.APIResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +22,9 @@ public class ClassStudentController {
     }
 
     @GetMapping("GetAll")
-    public ResponseEntity<APIResponse<Iterable<GetClassStudentDto>>> GetAllClassStudent() {
-        return new ResponseEntity<>(_classStudentBusiness.GetAllClassStudent(), HttpStatus.OK);
+    public ResponseEntity<APIResponse<Iterable<GetClassStudentDto>>> GetAllClassStudent(@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+                                                                                        @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize) {
+        return new ResponseEntity<>(_classStudentBusiness.GetAllClassStudent(pageNo, pageSize), HttpStatus.OK);
     }
 
     @GetMapping(path = "GetClassStudent/{classStudentId}")
