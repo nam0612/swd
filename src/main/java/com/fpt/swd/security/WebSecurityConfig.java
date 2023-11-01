@@ -1,6 +1,7 @@
 package com.fpt.swd.security;
 
 import com.fpt.swd.security.oauth2.CustomAuthenticationSuccessHandler;
+import com.fpt.swd.security.oauth2.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-//    private final CustomOAuth2UserService customOauth2UserService;
+    private final CustomOAuth2UserService customOauth2UserService;
     private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
     private final TokenAuthenticationFilter tokenAuthenticationFilter;
 
@@ -43,6 +44,8 @@ public class WebSecurityConfig {
                         .requestMatchers("/", "/error", "/csrf", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated())
                 .oauth2Login(oauth2Login -> oauth2Login
+                        .userInfoEndpoint(infoEndpoint ->
+                                infoEndpoint.userService(customOauth2UserService))
                         .successHandler(customAuthenticationSuccessHandler))
                 .logout(l -> l.logoutSuccessUrl("/").permitAll())
                 .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

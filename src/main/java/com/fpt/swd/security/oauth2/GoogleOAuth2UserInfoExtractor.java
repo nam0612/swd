@@ -1,10 +1,9 @@
-package com.ivanfranchin.movieapi.security.oauth2;
+package com.fpt.swd.security.oauth2;
 
 
 import com.fpt.swd.enums.OAuth2Provider;
 import com.fpt.swd.security.CustomUserDetails;
 import com.fpt.swd.security.WebSecurityConfig;
-import com.fpt.swd.security.oauth2.OAuth2UserInfoExtractor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.user.OAuth2User;

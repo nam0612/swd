@@ -3,6 +3,10 @@ package com.fpt.swd.database.entity;
 import com.fpt.swd.enums.OAuth2Provider;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serializable;
@@ -49,15 +53,21 @@ public class User implements Serializable {
     @Column(name = "status")
     private byte status;
 
+    @CreatedBy
     @Column(name = "created_by")
     private String createdBy;
 
+    @CreatedDate
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_date")
     private Date createdDate;
 
+    @LastModifiedBy
     @Column(name = "updated_by")
     private String updatedBy;
 
+    @LastModifiedDate
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_date")
     private Date updatedDate;
 
