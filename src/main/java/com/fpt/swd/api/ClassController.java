@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/api/classes")
-public class ClassController extends BaseController {
+public class ClassController {
     private final IClassBusiness _classBusiness;
 
 

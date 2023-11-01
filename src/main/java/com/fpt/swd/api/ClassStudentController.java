@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 public class ClassStudentController {
     private final IClassStudentBusiness _classStudentBusiness;
 
-
     @Autowired
     public ClassStudentController(IClassStudentBusiness classStudentBusiness) {
         this._classStudentBusiness = classStudentBusiness;

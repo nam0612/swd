@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/api/assignments")
-public class AssignmentController extends BaseController {
+public class AssignmentController {
     private final IAssignmentBusiness _assignmentBusiness;
 
     @Autowired
