@@ -2,6 +2,7 @@ package com.fpt.swd.api.request;
 
 //import com.ecommerce.enums.CatalogStatus;
 //import com.ecommerce.enums.ProductType;
+
 import lombok.Data;
 
 @Data
