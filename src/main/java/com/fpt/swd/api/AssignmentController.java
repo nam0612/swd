@@ -4,6 +4,7 @@ import com.fpt.swd.Response.APIResponse;
 import com.fpt.swd.business.AssignmentBusiness.IAssignmentBusiness;
 import com.fpt.swd.database.dto.Assignment.AddNewAssignmentDto;
 import com.fpt.swd.database.dto.Assignment.GetAssignmentDto;
+import com.fpt.swd.database.dto.Assignment.GetAssignmentVer2Dto;
 import com.fpt.swd.database.dto.Assignment.UpdateAssignmentDto;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +23,13 @@ public class AssignmentController {
     }
 
     @GetMapping("GetAll")
-    public ResponseEntity<APIResponse<Iterable<GetAssignmentDto>>> GetAllClasses(@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-                                                                                 @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize) {
+    public ResponseEntity<APIResponse<Iterable<GetAssignmentVer2Dto>>> GetAllClasses(@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+                                                                                     @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize) {
         return new ResponseEntity<>(_assignmentBusiness.GetAllAssignment(pageNo, pageSize), HttpStatus.OK);
     }
 
     @GetMapping(path = "GetAssignment/{assignmentId}")
-    public ResponseEntity<APIResponse<GetAssignmentDto>> GetClass(@PathVariable("assignmentId") int assignmentId) {
+    public ResponseEntity<APIResponse<GetAssignmentVer2Dto>> GetClass(@PathVariable("assignmentId") int assignmentId) {
         return new ResponseEntity<>(_assignmentBusiness.GetAssignment(assignmentId), HttpStatus.OK);
     }
 
