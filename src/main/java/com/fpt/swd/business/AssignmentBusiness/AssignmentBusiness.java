@@ -3,6 +3,7 @@ package com.fpt.swd.business.AssignmentBusiness;
 import com.fpt.swd.Response.APIResponse;
 import com.fpt.swd.database.dto.Assignment.AddNewAssignmentDto;
 import com.fpt.swd.database.dto.Assignment.GetAssignmentDto;
+import com.fpt.swd.database.dto.Assignment.GetAssignmentVer2Dto;
 import com.fpt.swd.database.dto.Assignment.UpdateAssignmentDto;
 import com.fpt.swd.database.entity.Assignment;
 import com.fpt.swd.database.repo.IAssignmentRepository;
@@ -29,11 +30,11 @@ public class AssignmentBusiness implements IAssignmentBusiness {
     }
 
     @Override
-    public APIResponse<Iterable<GetAssignmentDto>> GetAllAssignment(int pageNo, int pageSize) {
+    public APIResponse<Iterable<GetAssignmentVer2Dto>> GetAllAssignment(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
-        Page<Assignment> dbAssignment = _assignmentRepository.findAll(pageable);
-        var serviceResponse = new APIResponse<Iterable<GetAssignmentDto>>();
-        serviceResponse.Data = dbAssignment.getContent().stream().map(s -> _mapper.map(s, GetAssignmentDto.class)).toList();
+        Page<GetAssignmentVer2Dto> dbAssignment = _assignmentRepository.findAllList(pageable);
+        var serviceResponse = new APIResponse<Iterable<GetAssignmentVer2Dto>>();
+        serviceResponse.Data = dbAssignment.getContent().stream().map(s -> _mapper.map(s, GetAssignmentVer2Dto.class)).toList();
         serviceResponse.pagination.pageNo = dbAssignment.getNumber();
         serviceResponse.pagination.pageSize = dbAssignment.getSize();
         serviceResponse.pagination.totalElements = dbAssignment.getTotalElements();
@@ -70,12 +71,12 @@ public class AssignmentBusiness implements IAssignmentBusiness {
     }
 
     @Override
-    public APIResponse<GetAssignmentDto> GetAssignment(int assignmentId) {
-        var serviceResponse = new APIResponse<GetAssignmentDto>();
+    public APIResponse<GetAssignmentVer2Dto> GetAssignment(int assignmentId) {
+        var serviceResponse = new APIResponse<GetAssignmentVer2Dto>();
         serviceResponse.pagination = null;
-        Optional<Assignment> responseAssignment = _assignmentRepository.findById(assignmentId);
+        Optional<GetAssignmentVer2Dto> responseAssignment = _assignmentRepository.findByAssignmentSubject(assignmentId);
         if (responseAssignment.isPresent()) {
-            serviceResponse.Data = _mapper.map(responseAssignment.get(), GetAssignmentDto.class);
+            serviceResponse.Data = _mapper.map(responseAssignment.get(), GetAssignmentVer2Dto.class);
         } else {
             serviceResponse.Data = null;
             serviceResponse.status = false;

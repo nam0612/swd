@@ -25,5 +25,4 @@ public class ProjectMember {
     private String updated_by;
     private Date updated_date;
 
-
 }
