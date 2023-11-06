@@ -11,7 +11,7 @@ import com.fpt.swd.database.dto.ProjectMember.UpdateProjectMemberDTO;
 
 
 public interface IProjectMemberBusiness {
-    APIResponse<Iterable<GetProjectMemberDTO>> getAllProjectMember();
+    APIResponse<Iterable<GetProjectMemberDTO>> getAllProjectMember(int pageNo, int pageSize);
     APIResponse<Iterable<GetProjectMemberDTO>> addNewProjectMember(AddProjectMemberDTO requestProjectMemberDTO);
 
     APIResponse<Iterable<GetProjectMemberDTO>> removeProjectMember(int projectMemberId);

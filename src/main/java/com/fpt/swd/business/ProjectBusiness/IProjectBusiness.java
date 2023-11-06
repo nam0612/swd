@@ -7,7 +7,7 @@ import com.fpt.swd.database.dto.Subject.AddSubjectDTO;
 import com.fpt.swd.Response.APIResponse;
 
 public interface IProjectBusiness {
-    APIResponse<Iterable<GetProjectDTO>> getAllProject();
+    APIResponse<Iterable<GetProjectDTO>> getAllProject(int pageNo, int pageSize);
     APIResponse<Iterable<GetProjectDTO>> addNewProject(AddProjectDTO requestProjectDTO);
 
     APIResponse<Iterable<GetProjectDTO>> removeProject(int projectId);

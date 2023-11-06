@@ -26,8 +26,9 @@ public class ProjectMemberController {
 
 
     @GetMapping("GetAll")
-    public ResponseEntity<APIResponse<Iterable<GetProjectMemberDTO>>> GetAll(){
-        return new ResponseEntity<>(_projectMemberBussiness.getAllProjectMember(), HttpStatus.OK);
+    public ResponseEntity<APIResponse<Iterable<GetProjectMemberDTO>>> GetAll(@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+                                                                             @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize  ){
+        return new ResponseEntity<>(_projectMemberBussiness.getAllProjectMember(pageNo,pageSize), HttpStatus.OK);
     }
 
     @Transactional

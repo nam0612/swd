@@ -10,6 +10,8 @@ import com.fpt.swd.database.entity.Subject;
 import com.fpt.swd.database.repo.SubjectRepo;
 import org.apache.catalina.mapper.Mapper;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,10 +27,14 @@ public class SubjectBusiness implements ISubjectBusiness{
     }
 
     @Override
-    public APIResponse<Iterable<GetSubjectDTO>> getAllSubject() {
+    public APIResponse<Iterable<GetSubjectDTO>> getAllSubject(int pageNo, int pageSize) {
+        Page<Subject> listFromDb=_subjectRepo.findAll(PageRequest.of(pageNo,pageSize));
         var responseService= new APIResponse<Iterable<GetSubjectDTO>>();
-        var takeFromDb= _subjectRepo.findAll();
-        responseService.Data=takeFromDb.stream().map(c->_mapper.map(c, GetSubjectDTO.class)).toList();
+        responseService.Data=listFromDb.getContent().stream().map(c->_mapper.map(c, GetSubjectDTO.class)).toList();
+        responseService.pagination.pageNo = listFromDb.getNumber();
+        responseService.pagination.pageSize = listFromDb.getSize();
+        responseService.pagination.totalElements = listFromDb.getTotalElements();
+        responseService.pagination.totalPages = listFromDb.getTotalPages();
         return responseService;
     }
 
@@ -83,7 +89,7 @@ public class SubjectBusiness implements ISubjectBusiness{
         var responseEntity= new APIResponse<GetSubjectDTO>();
         Optional<Subject> subjectFromDb= _subjectRepo.findById(subjectId);
         if(subjectFromDb.isPresent()){
-            responseEntity.Data=_mapper.map(subjectFromDb,GetSubjectDTO.class);
+            responseEntity.Data=_mapper.map(subjectFromDb.get(),GetSubjectDTO.class);
             return responseEntity;
         }
         else{

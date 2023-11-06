@@ -11,6 +11,6 @@ public class APIResponse<T> {
     public T Data;
 
     public boolean status = true;
-
+    public Pagination pagination = new Pagination();
     public String message = null;
 }

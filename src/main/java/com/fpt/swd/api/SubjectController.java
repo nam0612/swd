@@ -24,8 +24,9 @@ public class SubjectController extends BaseController{
     }
 
     @GetMapping("GetAll")
-    public ResponseEntity<APIResponse<Iterable<GetSubjectDTO>>> GetAllSubject(){
-        return new ResponseEntity<>(_subjectBusiness.getAllSubject(), HttpStatus.OK);
+    public ResponseEntity<APIResponse<Iterable<GetSubjectDTO>>> GetAllSubject(@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+                                                                              @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize ){
+        return new ResponseEntity<>(_subjectBusiness.getAllSubject(pageNo,pageSize), HttpStatus.OK);
     }
 
     @GetMapping(path = "GetSubject/{subjectId}")

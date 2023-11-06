@@ -6,7 +6,7 @@ import com.fpt.swd.database.dto.Subject.UpdateSubjectDTO;
 import com.fpt.swd.Response.APIResponse;
 
 public interface ISubjectBusiness{
-    APIResponse<Iterable<GetSubjectDTO>> getAllSubject();
+    APIResponse<Iterable<GetSubjectDTO>> getAllSubject(int pageNo, int pageSize);
     APIResponse<Iterable<GetSubjectDTO>> addNewSubject(AddSubjectDTO requestSubjectDTO);
 
     APIResponse<Iterable<GetSubjectDTO>> removeSubject(int subjectId);

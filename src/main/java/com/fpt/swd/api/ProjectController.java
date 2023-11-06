@@ -22,8 +22,9 @@ public class ProjectController extends BaseController{
     }
 
     @GetMapping("GetAll")
-    public ResponseEntity<APIResponse<Iterable<GetProjectDTO>>> GetAllProject(){
-        return new ResponseEntity<>(_projectBusiness.getAllProject(), HttpStatus.OK);
+    public ResponseEntity<APIResponse<Iterable<GetProjectDTO>>> GetAllProject(@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+                                                                              @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize  ){
+        return new ResponseEntity<>(_projectBusiness.getAllProject(pageNo,pageSize), HttpStatus.OK);
     }
 
     @GetMapping(path = "GetProject/{projectId}")

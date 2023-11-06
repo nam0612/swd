@@ -8,8 +8,11 @@ import com.fpt.swd.Response.APIResponse;
 import com.fpt.swd.database.entity.Project;
 import com.fpt.swd.database.repo.ProjectRepo;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -23,11 +26,16 @@ public class ProjectBusiness implements IProjectBusiness{
         this._projectRepo = _projectRepo;
     }
 
+
     @Override
-    public APIResponse<Iterable<GetProjectDTO>> getAllProject() {
-        var dbClass= _projectRepo.findAll();
+    public APIResponse<Iterable<GetProjectDTO>> getAllProject(int pageNo, int pageSize) {
+        Page<Project> dbProject=_projectRepo.findAll(PageRequest.of(pageNo, pageSize));
         var serviceResponse = new APIResponse<Iterable<GetProjectDTO>>();
-        serviceResponse.Data=dbClass.stream().map(c->_mapper.map(c, GetProjectDTO.class)).toList();
+        serviceResponse.Data=dbProject.getContent().stream().map(c->_mapper.map(c, GetProjectDTO.class)).toList();
+        serviceResponse.pagination.pageNo = dbProject.getNumber();
+        serviceResponse.pagination.pageSize = dbProject.getSize();
+        serviceResponse.pagination.totalElements = dbProject.getTotalElements();
+        serviceResponse.pagination.totalPages = dbProject.getTotalPages();
         return serviceResponse;
     }
 
@@ -87,7 +95,7 @@ public class ProjectBusiness implements IProjectBusiness{
         var serviceResponse = new APIResponse<GetProjectDTO>();
         Optional<Project> responseProject = _projectRepo.findById(projectId);
         if(responseProject.isPresent()){
-            serviceResponse.Data=_mapper.map(responseProject, GetProjectDTO.class );
+            serviceResponse.Data=_mapper.map(responseProject.get(), GetProjectDTO.class );
         }else{
             serviceResponse.Data=null;
             serviceResponse.status=false;

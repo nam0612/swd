@@ -10,6 +10,8 @@ import com.fpt.swd.database.repo.ProjectMemberRepo;
 import org.apache.kafka.common.quota.ClientQuotaAlteration;
 import org.checkerframework.checker.units.qual.A;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
@@ -27,11 +29,14 @@ public class ProjectMemberBusiness implements IProjectMemberBusiness{
     }
 
     @Override
-    public APIResponse<Iterable<GetProjectMemberDTO>> getAllProjectMember() {
+    public APIResponse<Iterable<GetProjectMemberDTO>> getAllProjectMember(int pageNo, int pageSize) {
+        Page<ProjectMember> listFromDb=_projectMemberRepo.findAll(PageRequest.of(pageNo,pageSize));
         var responseService= new APIResponse<Iterable<GetProjectMemberDTO>>();
-        var listFromDb= _projectMemberRepo.findAll();
-        responseService.Data=listFromDb.stream().map(c->_mapper.map(c,GetProjectMemberDTO.class)).toList();
-
+        responseService.Data=listFromDb.getContent().stream().map(c->_mapper.map(c,GetProjectMemberDTO.class)).toList();
+        responseService.pagination.pageNo = listFromDb.getNumber();
+        responseService.pagination.pageSize = listFromDb.getSize();
+        responseService.pagination.totalElements = listFromDb.getTotalElements();
+        responseService.pagination.totalPages = listFromDb.getTotalPages();
         return responseService;
     }
 
