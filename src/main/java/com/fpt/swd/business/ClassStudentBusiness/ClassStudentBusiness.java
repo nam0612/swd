@@ -2,6 +2,7 @@ package com.fpt.swd.business.ClassStudentBusiness;
 
 import com.fpt.swd.database.dto.ClassStudent.AddNewClassStudentDto;
 import com.fpt.swd.database.dto.ClassStudent.GetClassStudentDto;
+import com.fpt.swd.database.dto.ClassStudent.GetClassStudentVer2Dto;
 import com.fpt.swd.database.dto.ClassStudent.UpdateClassStudentDto;
 import com.fpt.swd.Response.APIResponse;
 import com.fpt.swd.database.entity.ClassStudent;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClassStudentBusiness implements IClassStudentBusiness {
@@ -27,11 +29,11 @@ public class ClassStudentBusiness implements IClassStudentBusiness {
     }
 
     @Override
-    public APIResponse<Iterable<GetClassStudentDto>> GetAllClassStudent(int pageNo, int pageSize) {
+    public APIResponse<Iterable<GetClassStudentVer2Dto>> GetAllClassStudent(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
-        Page<ClassStudent> dbClassStudent = _classStudentRepository.findAll(pageable);
-        var serviceResponse = new APIResponse<Iterable<GetClassStudentDto>>();
-        serviceResponse.Data = dbClassStudent.getContent().stream().map(cs -> _mapper.map(cs, GetClassStudentDto.class)).toList();
+        Page<GetClassStudentVer2Dto> dbClassStudent = _classStudentRepository.findAllList(pageable);
+        var serviceResponse = new APIResponse<Iterable<GetClassStudentVer2Dto>>();
+        serviceResponse.Data = dbClassStudent.getContent().stream().map(cs -> _mapper.map(cs, GetClassStudentVer2Dto.class)).toList();
         serviceResponse.pagination.pageNo = dbClassStudent.getNumber();
         serviceResponse.pagination.pageSize = dbClassStudent.getSize();
         serviceResponse.pagination.totalElements = dbClassStudent.getTotalElements();
@@ -68,12 +70,12 @@ public class ClassStudentBusiness implements IClassStudentBusiness {
     }
 
     @Override
-    public APIResponse<GetClassStudentDto> GetClassStudent(int classStudentId) {
-        var serviceResponse = new APIResponse<GetClassStudentDto>();
+    public APIResponse<GetClassStudentVer2Dto> GetClassStudent(int classStudentId) {
+        var serviceResponse = new APIResponse<GetClassStudentVer2Dto>();
         serviceResponse.pagination = null;
-        Optional<ClassStudent> responseClassStudent = _classStudentRepository.findById(classStudentId);
+        Optional<GetClassStudentVer2Dto> responseClassStudent = _classStudentRepository.findByUserClass(classStudentId);
         if (responseClassStudent.isPresent()) {
-            serviceResponse.Data = _mapper.map(responseClassStudent.get(), GetClassStudentDto.class);
+            serviceResponse.Data = _mapper.map(responseClassStudent.get(), GetClassStudentVer2Dto.class);
         } else {
             serviceResponse.Data = null;
             serviceResponse.status = false;
