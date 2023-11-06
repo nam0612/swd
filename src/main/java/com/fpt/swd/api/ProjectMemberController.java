@@ -4,6 +4,7 @@ import com.fpt.swd.Response.APIResponse;
 import com.fpt.swd.business.ProjectMemberBusiness.IProjectMemberBusiness;
 import com.fpt.swd.database.dto.ProjectMember.AddProjectMemberDTO;
 import com.fpt.swd.database.dto.ProjectMember.GetProjectMemberDTO;
+import com.fpt.swd.database.dto.ProjectMember.ProjectMemberJoinDTO;
 import com.fpt.swd.database.dto.ProjectMember.UpdateProjectMemberDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,8 @@ public class ProjectMemberController {
 
 
     @GetMapping("GetAll")
-    public ResponseEntity<APIResponse<Iterable<GetProjectMemberDTO>>> GetAll(@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-                                                                             @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize  ){
+    public ResponseEntity<APIResponse<Iterable<ProjectMemberJoinDTO>>> GetAll(@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+                                                                              @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize  ){
         return new ResponseEntity<>(_projectMemberBussiness.getAllProjectMember(pageNo,pageSize), HttpStatus.OK);
     }
 
@@ -35,7 +36,7 @@ public class ProjectMemberController {
     }
 
     @GetMapping("GetProjectMember/{projectMemberId}")
-    public ResponseEntity<APIResponse<GetProjectMemberDTO>> GetProjectMember(@PathVariable("projectMemberId") int projectMemberId){
+    public ResponseEntity<APIResponse<ProjectMemberJoinDTO>> GetProjectMember(@PathVariable("projectMemberId") int projectMemberId){
         return new ResponseEntity<>(_projectMemberBussiness.getProjectMember(projectMemberId),HttpStatus.OK);
     }
 
@@ -49,4 +50,5 @@ public class ProjectMemberController {
     public ResponseEntity<APIResponse<Iterable<GetProjectMemberDTO>>> DeleteProjectMember(@PathVariable("projectMemberId") int projectMemberId){
         return new ResponseEntity<>(_projectMemberBussiness.removeProjectMember(projectMemberId),HttpStatus.OK);
     }
+
 }
