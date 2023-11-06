@@ -9,4 +9,13 @@ import java.util.List;
 
 public interface MilestoneBusiness {
     List<MilestoneDTO> getAllMilestone();
+
+    MilestoneDTO updateMilestone(MilestoneDTO milestoneDTO, Integer id) throws Exception;
+
+    MilestoneDTO createMilestone(MilestoneDTO milestoneDTO);
+
+    MilestoneDTO deleteMilestone(Integer id) throws Exception;
+
+    MilestoneDTO detailMilestone(Integer id) throws Exception;
+
 }

@@ -1,19 +1,24 @@
 package com.fpt.swd.database.dto;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 
 
 import java.io.Serializable;
 import java.util.Date;
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 public class MilestoneDTO implements Serializable {
     private Integer  id;
     private String name;
     private String description;
+
+    @NotBlank
     private String projectId;
+
+    @NotBlank
     private String classId;
     private Integer status;
     private String createdBy;
@@ -31,4 +36,5 @@ public class MilestoneDTO implements Serializable {
         this.projectName = projectName;
         this.className = className;
     }
+
 }
