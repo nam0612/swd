@@ -3,6 +3,7 @@ package com.fpt.swd.api;
 import com.fpt.swd.business.ClassBusiness.IClassBusiness;
 import com.fpt.swd.database.dto.Class.AddNewClasDto;
 import com.fpt.swd.database.dto.Class.GetClassDto;
+import com.fpt.swd.database.dto.Class.GetClassVer2Dto;
 import com.fpt.swd.database.dto.Class.UpdateClassDto;
 import com.fpt.swd.Response.APIResponse;
 import jakarta.validation.Valid;
@@ -23,13 +24,13 @@ public class ClassController {
     }
 
     @GetMapping("GetAll")
-    public ResponseEntity<APIResponse<Iterable<GetClassDto>>> GetAllClasses(@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-                                                                            @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize) {
+    public ResponseEntity<APIResponse<Iterable<GetClassVer2Dto>>> GetAllClasses(@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+                                                                                @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize) {
         return new ResponseEntity<>(_classBusiness.GetAllClass(pageNo, pageSize), HttpStatus.OK);
     }
 
     @GetMapping(path = "GetClass/{classId}")
-    public ResponseEntity<APIResponse<GetClassDto>> GetClass(@PathVariable("classId") int classId) {
+    public ResponseEntity<APIResponse<GetClassVer2Dto>> GetClass(@PathVariable("classId") int classId) {
         return new ResponseEntity<>(_classBusiness.GetClass(classId), HttpStatus.OK);
     }
 
