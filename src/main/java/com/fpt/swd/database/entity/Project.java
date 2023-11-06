@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.Date;
+import java.util.List;
 
 @EntityListeners(AuditingEntityListener.class)
 @Builder
@@ -30,5 +31,7 @@ public class Project {
     private String updated_by;
     private Date updated_date;
 
+    @OneToMany(mappedBy = "projectMemberList")
+    private List<ProjectMember> memberList;
 }
 

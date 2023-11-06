@@ -27,4 +27,8 @@ public class ProjectMember {
     private String updated_by;
     private Date updated_date;
 
+    @ManyToOne
+    @JoinColumn(name="project_id")
+    private Project projectMemberList;
+
 }
