@@ -1,8 +1,10 @@
 package com.fpt.swd.business.ProjectMemberBusiness;
 
 import com.fpt.swd.Response.APIResponse;
+import com.fpt.swd.database.dto.ClassStudent.GetClassStudentVer2Dto;
 import com.fpt.swd.database.dto.ProjectMember.AddProjectMemberDTO;
 import com.fpt.swd.database.dto.ProjectMember.GetProjectMemberDTO;
+import com.fpt.swd.database.dto.ProjectMember.ProjectMemberJoinDTO;
 import com.fpt.swd.database.dto.ProjectMember.UpdateProjectMemberDTO;
 import com.fpt.swd.database.entity.ProjectMember;
 import com.fpt.swd.database.repo.ProjectMemberRepo;
@@ -25,10 +27,10 @@ public class ProjectMemberBusiness implements IProjectMemberBusiness{
     }
 
     @Override
-    public APIResponse<Iterable<GetProjectMemberDTO>> getAllProjectMember(int pageNo, int pageSize) {
-        Page<ProjectMember> listFromDb=_projectMemberRepo.findAll(PageRequest.of(pageNo,pageSize));
-        var responseService= new APIResponse<Iterable<GetProjectMemberDTO>>();
-        responseService.Data=listFromDb.getContent().stream().map(c->_mapper.map(c,GetProjectMemberDTO.class)).toList();
+    public APIResponse<Iterable<ProjectMemberJoinDTO>> getAllProjectMember(int pageNo, int pageSize) {
+        Page<ProjectMemberJoinDTO> listFromDb=_projectMemberRepo.findAllList(PageRequest.of(pageNo, pageSize));
+        var responseService= new APIResponse<Iterable<ProjectMemberJoinDTO>>();
+        responseService.Data=listFromDb.getContent().stream().map(c->_mapper.map(c,ProjectMemberJoinDTO.class)).toList();
         responseService.pagination.pageNo = listFromDb.getNumber();
         responseService.pagination.pageSize = listFromDb.getSize();
         responseService.pagination.totalElements = listFromDb.getTotalElements();
@@ -79,12 +81,11 @@ public class ProjectMemberBusiness implements IProjectMemberBusiness{
     }
 
     @Override
-    public APIResponse<GetProjectMemberDTO> getProjectMember(int projectMemberId) {
-        var responseService= new APIResponse<GetProjectMemberDTO>();
-        Optional<ProjectMember> projectMember=_projectMemberRepo.findById(projectMemberId);
+    public APIResponse<ProjectMemberJoinDTO> getProjectMember(int projectMemberId) {
+        var responseService= new APIResponse<ProjectMemberJoinDTO>();
+        Optional<ProjectMemberJoinDTO> projectMember=_projectMemberRepo.findByUserProject(projectMemberId);
         if(projectMember.isPresent()){
-            ProjectMember pj=projectMember.get();
-            responseService.Data=_mapper.map(pj,GetProjectMemberDTO.class);
+            responseService.Data = _mapper.map(projectMember.get(), ProjectMemberJoinDTO.class);
             return responseService;
         }else {
             responseService.Data=null;
@@ -93,4 +94,5 @@ public class ProjectMemberBusiness implements IProjectMemberBusiness{
         }
         return responseService;
     }
+
 }

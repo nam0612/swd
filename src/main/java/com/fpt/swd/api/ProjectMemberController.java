@@ -4,6 +4,7 @@ import com.fpt.swd.Response.APIResponse;
 import com.fpt.swd.business.ProjectMemberBusiness.IProjectMemberBusiness;
 import com.fpt.swd.database.dto.ProjectMember.AddProjectMemberDTO;
 import com.fpt.swd.database.dto.ProjectMember.GetProjectMemberDTO;
+import com.fpt.swd.database.dto.ProjectMember.ProjectMemberJoinDTO;
 import com.fpt.swd.database.dto.ProjectMember.UpdateProjectMemberDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -27,9 +28,9 @@ public class ProjectMemberController {
 
     @Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
     @GetMapping("GetAll")
-    public ResponseEntity<APIResponse<Iterable<GetProjectMemberDTO>>> GetAll(@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-                                                                             @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize) {
-        return new ResponseEntity<>(_projectMemberBussiness.getAllProjectMember(pageNo, pageSize), HttpStatus.OK);
+    public ResponseEntity<APIResponse<Iterable<ProjectMemberJoinDTO>>> GetAll(@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+                                                                              @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize  ){
+        return new ResponseEntity<>(_projectMemberBussiness.getAllProjectMember(pageNo,pageSize), HttpStatus.OK);
     }
 
     @Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
@@ -41,8 +42,8 @@ public class ProjectMemberController {
 
     @Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
     @GetMapping("GetProjectMember/{projectMemberId}")
-    public ResponseEntity<APIResponse<GetProjectMemberDTO>> GetProjectMember(@PathVariable("projectMemberId") int projectMemberId) {
-        return new ResponseEntity<>(_projectMemberBussiness.getProjectMember(projectMemberId), HttpStatus.OK);
+    public ResponseEntity<APIResponse<ProjectMemberJoinDTO>> GetProjectMember(@PathVariable("projectMemberId") int projectMemberId){
+        return new ResponseEntity<>(_projectMemberBussiness.getProjectMember(projectMemberId),HttpStatus.OK);
     }
 
     @Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
@@ -57,4 +58,5 @@ public class ProjectMemberController {
     public ResponseEntity<APIResponse<Iterable<GetProjectMemberDTO>>> DeleteProjectMember(@PathVariable("projectMemberId") int projectMemberId) {
         return new ResponseEntity<>(_projectMemberBussiness.removeProjectMember(projectMemberId), HttpStatus.OK);
     }
+
 }
