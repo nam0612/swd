@@ -3,6 +3,7 @@ package com.fpt.swd.business.ClassBusiness;
 import com.fpt.swd.Response.APIResponse;
 import com.fpt.swd.database.dto.Class.AddNewClasDto;
 import com.fpt.swd.database.dto.Class.GetClassDto;
+import com.fpt.swd.database.dto.Class.GetClassVer2Dto;
 import com.fpt.swd.database.dto.Class.UpdateClassDto;
 import com.fpt.swd.database.entity.Class;
 import com.fpt.swd.database.repo.IClassRepository;
@@ -29,11 +30,11 @@ public class ClassBusiness implements IClassBusiness {
     }
 
     @Override
-    public APIResponse<Iterable<GetClassDto>> GetAllClass(int pageNo, int pageSize) {
+    public APIResponse<Iterable<GetClassVer2Dto>> GetAllClass(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
-        Page<Class> dbClass = _classRepository.findAll(pageable);
-        var serviceResponse = new APIResponse<Iterable<GetClassDto>>();
-        serviceResponse.Data = dbClass.getContent().stream().map(c -> _mapper.map(c, GetClassDto.class)).toList();
+        Page<GetClassVer2Dto> dbClass = _classRepository.findAllList(pageable);
+        var serviceResponse = new APIResponse<Iterable<GetClassVer2Dto>>();
+        serviceResponse.Data = dbClass.getContent().stream().map(c -> _mapper.map(c, GetClassVer2Dto.class)).toList();
         serviceResponse.pagination.pageNo = dbClass.getNumber();
         serviceResponse.pagination.pageSize = dbClass.getSize();
         serviceResponse.pagination.totalElements = dbClass.getTotalElements();
@@ -78,13 +79,13 @@ public class ClassBusiness implements IClassBusiness {
     }
 
     @Override
-    public APIResponse<GetClassDto> GetClass(int classId) {
-        var serviceResponse = new APIResponse<GetClassDto>();
+    public APIResponse<GetClassVer2Dto> GetClass(int classId) {
+        var serviceResponse = new APIResponse<GetClassVer2Dto>();
         serviceResponse.pagination = null;
-        Optional<Class> responseClass = _classRepository.findById(classId);
+        Optional<GetClassVer2Dto> responseClass = _classRepository.findByUserSettingSubject(classId);
         serviceResponse.pagination = null;
         if (responseClass.isPresent()) {
-            serviceResponse.Data = _mapper.map(responseClass.get(), GetClassDto.class);
+            serviceResponse.Data = _mapper.map(responseClass.get(), GetClassVer2Dto.class);
         } else {
             serviceResponse.Data = null;
             serviceResponse.status = false;

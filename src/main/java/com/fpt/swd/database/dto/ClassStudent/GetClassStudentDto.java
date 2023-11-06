@@ -1,5 +1,7 @@
 package com.fpt.swd.database.dto.ClassStudent;
 
+import com.fpt.swd.database.entity.Class;
+import com.fpt.swd.database.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,4 +17,5 @@ public class GetClassStudentDto implements Serializable {
     private byte status;
     private String created_by;
     private String updated_by;
+
 }
