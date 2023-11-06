@@ -3,6 +3,7 @@ package com.fpt.swd.api;
 import com.fpt.swd.business.ClassStudentBusiness.IClassStudentBusiness;
 import com.fpt.swd.database.dto.ClassStudent.AddNewClassStudentDto;
 import com.fpt.swd.database.dto.ClassStudent.GetClassStudentDto;
+import com.fpt.swd.database.dto.ClassStudent.GetClassStudentVer2Dto;
 import com.fpt.swd.database.dto.ClassStudent.UpdateClassStudentDto;
 import com.fpt.swd.Response.APIResponse;
 import jakarta.validation.Valid;
@@ -22,13 +23,13 @@ public class ClassStudentController {
     }
 
     @GetMapping("GetAll")
-    public ResponseEntity<APIResponse<Iterable<GetClassStudentDto>>> GetAllClassStudent(@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-                                                                                        @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize) {
+    public ResponseEntity<APIResponse<Iterable<GetClassStudentVer2Dto>>> GetAllClassStudent(@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+                                                                                            @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize) {
         return new ResponseEntity<>(_classStudentBusiness.GetAllClassStudent(pageNo, pageSize), HttpStatus.OK);
     }
 
     @GetMapping(path = "GetClassStudent/{classStudentId}")
-    public ResponseEntity<APIResponse<GetClassStudentDto>> GetClassStudent(@PathVariable("classStudentId") int classStudentId) {
+    public ResponseEntity<APIResponse<GetClassStudentVer2Dto>> GetClassStudent(@PathVariable("classStudentId") int classStudentId) {
         return new ResponseEntity<>(_classStudentBusiness.GetClassStudent(classStudentId), HttpStatus.OK);
     }
 
