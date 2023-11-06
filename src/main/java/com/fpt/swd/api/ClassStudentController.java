@@ -5,6 +5,7 @@ import com.fpt.swd.database.dto.ClassStudent.AddNewClassStudentDto;
 import com.fpt.swd.database.dto.ClassStudent.GetClassStudentDto;
 import com.fpt.swd.database.dto.ClassStudent.UpdateClassStudentDto;
 import com.fpt.swd.Response.APIResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,12 +33,12 @@ public class ClassStudentController {
     }
 
     @PostMapping("AddNew")
-    public ResponseEntity<APIResponse<Iterable<GetClassStudentDto>>> AddNewStudent(@RequestBody AddNewClassStudentDto newClassStudent) {
+    public ResponseEntity<APIResponse<Iterable<GetClassStudentDto>>> AddNewStudent(@Valid @RequestBody AddNewClassStudentDto newClassStudent) {
         return new ResponseEntity<>(_classStudentBusiness.AddNewClassStudent(newClassStudent), HttpStatus.CREATED);
     }
 
     @PutMapping("Update")
-    public ResponseEntity<APIResponse<GetClassStudentDto>> UpdateStudent(@RequestBody UpdateClassStudentDto newClassStudent) {
+    public ResponseEntity<APIResponse<GetClassStudentDto>> UpdateStudent(@Valid @RequestBody UpdateClassStudentDto newClassStudent) {
         return new ResponseEntity<>(_classStudentBusiness.UpdateClassStudent(newClassStudent), HttpStatus.OK);
     }
 

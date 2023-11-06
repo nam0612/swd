@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClassStudentBusiness implements IClassStudentBusiness {
@@ -29,7 +30,7 @@ public class ClassStudentBusiness implements IClassStudentBusiness {
     @Override
     public APIResponse<Iterable<GetClassStudentDto>> GetAllClassStudent(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
-        Page<ClassStudent> dbClassStudent = _classStudentRepository.findAll(pageable);
+        Page<GetClassStudentDto> dbClassStudent = _classStudentRepository.findAllList(pageable);
         var serviceResponse = new APIResponse<Iterable<GetClassStudentDto>>();
         serviceResponse.Data = dbClassStudent.getContent().stream().map(cs -> _mapper.map(cs, GetClassStudentDto.class)).toList();
         serviceResponse.pagination.pageNo = dbClassStudent.getNumber();

@@ -5,6 +5,7 @@ import com.fpt.swd.database.dto.Class.AddNewClasDto;
 import com.fpt.swd.database.dto.Class.GetClassDto;
 import com.fpt.swd.database.dto.Class.UpdateClassDto;
 import com.fpt.swd.Response.APIResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,12 +34,12 @@ public class ClassController {
     }
 
     @PostMapping("AddNew")
-    public ResponseEntity<APIResponse<Iterable<GetClassDto>>> AddNewClass(@RequestBody AddNewClasDto newClass) {
+    public ResponseEntity<APIResponse<Iterable<GetClassDto>>> AddNewClass(@Valid @RequestBody AddNewClasDto newClass) {
         return new ResponseEntity<>(_classBusiness.AddNewClass(newClass), HttpStatus.CREATED);
     }
 
     @PutMapping("Update")
-    public ResponseEntity<APIResponse<GetClassDto>> UpdateClass(@RequestBody UpdateClassDto newClass) {
+    public ResponseEntity<APIResponse<GetClassDto>> UpdateClass(@Valid @RequestBody UpdateClassDto newClass) {
         return new ResponseEntity<>(_classBusiness.UpdateClass(newClass), HttpStatus.OK);
     }
 

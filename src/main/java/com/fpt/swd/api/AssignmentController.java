@@ -5,6 +5,7 @@ import com.fpt.swd.business.AssignmentBusiness.IAssignmentBusiness;
 import com.fpt.swd.database.dto.Assignment.AddNewAssignmentDto;
 import com.fpt.swd.database.dto.Assignment.GetAssignmentDto;
 import com.fpt.swd.database.dto.Assignment.UpdateAssignmentDto;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,12 +33,12 @@ public class AssignmentController {
     }
 
     @PostMapping("AddNew")
-    public ResponseEntity<APIResponse<Iterable<GetAssignmentDto>>> AddNewClass(@RequestBody AddNewAssignmentDto newClass) {
+    public ResponseEntity<APIResponse<Iterable<GetAssignmentDto>>> AddNewClass(@Valid @RequestBody AddNewAssignmentDto newClass) {
         return new ResponseEntity<>(_assignmentBusiness.AddNewAssignment(newClass), HttpStatus.CREATED);
     }
 
     @PutMapping("Update")
-    public ResponseEntity<APIResponse<GetAssignmentDto>> UpdateClass(@RequestBody UpdateAssignmentDto newClass) {
+    public ResponseEntity<APIResponse<GetAssignmentDto>> UpdateClass(@Valid @RequestBody UpdateAssignmentDto newClass) {
         return new ResponseEntity<>(_assignmentBusiness.UpdateAssignment(newClass), HttpStatus.OK);
     }
 
