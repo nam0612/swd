@@ -4,11 +4,13 @@ package com.fpt.swd.api;
 import com.fpt.swd.api.request.ChangePasswordRequest;
 import com.fpt.swd.api.request.UserDto;
 import com.fpt.swd.business.UserService;
+import com.fpt.swd.database.dto.UserDTOVer2;
 import com.fpt.swd.database.entity.User;
 import com.fpt.swd.mapper.UserMapper;
 import com.fpt.swd.security.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -36,7 +38,7 @@ public class UserController {
         return userMapper.toUserDto(user);
     }
 
-//    @Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
+    @Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
     @GetMapping
     public List<UserDto> getUsers() {
         return userService.getUsers().stream()
@@ -56,6 +58,13 @@ public class UserController {
         User user = userService.validateAndGetUserByUsername(username);
         userService.deleteUser(user);
         return userMapper.toUserDto(user);
+    }
+
+    @Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
+    @PutMapping("/{username}")
+    public UserDTOVer2 editUser(@RequestBody UserDTOVer2 userDto, @PathVariable String username) {
+        User user = userService.validateAndGetUserByUsername(username);
+        return userService.updateProfile(userDto, username);
     }
 
     @Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})

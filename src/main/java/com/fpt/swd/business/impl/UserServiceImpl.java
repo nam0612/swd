@@ -1,13 +1,13 @@
 package com.fpt.swd.business.impl;
 
 import com.fpt.swd.api.request.ChangePasswordRequest;
+import com.fpt.swd.api.request.UserDto;
 import com.fpt.swd.business.UserService;
+import com.fpt.swd.database.dto.UserDTOVer2;
 import com.fpt.swd.database.entity.User;
 import com.fpt.swd.database.repo.UserRepository;
 import com.fpt.swd.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -84,5 +84,18 @@ public class UserServiceImpl implements UserService {
 
         // save the new password
         userRepository.save(user);
+    }
+
+    @Override
+    public UserDTOVer2 updateProfile(UserDTOVer2 userDto, String username) {
+        User user = validateAndGetUserByUsername(username);
+        if(user != null) {
+            user.setEmail(userDto.getEmail());
+            user.setFirstName(userDto.getFirstName());
+            user.setLastName(userDto.getLastName());
+            userRepository.save(user);
+            return userDto;
+        }
+        return null;
     }
 }
