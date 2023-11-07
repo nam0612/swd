@@ -4,6 +4,7 @@ import com.fpt.swd.Response.APIResponse;
 import com.fpt.swd.business.ProjectBusiness.IProjectBusiness;
 import com.fpt.swd.database.dto.Project.AddProjectDTO;
 import com.fpt.swd.database.dto.Project.GetProjectDTO;
+import com.fpt.swd.database.dto.Project.ProjectJoinDTO;
 import com.fpt.swd.database.dto.Project.UpdateProjectDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -25,8 +26,8 @@ public class ProjectController{
     }
     @Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
     @GetMapping("GetAll")
-    public ResponseEntity<APIResponse<Iterable<GetProjectDTO>>> GetAllProject(@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
-                                                                              @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize  ){
+    public ResponseEntity<APIResponse<Iterable<ProjectJoinDTO>>> GetAllProject(@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+                                                                               @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize  ){
         return new ResponseEntity<>(_projectBusiness.getAllProject(pageNo,pageSize), HttpStatus.OK);
     }
     @Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})

@@ -4,6 +4,7 @@ import com.fpt.swd.Response.APIResponse;
 import com.fpt.swd.database.dto.Class.GetClassDto;
 import com.fpt.swd.database.dto.Project.AddProjectDTO;
 import com.fpt.swd.database.dto.Project.GetProjectDTO;
+import com.fpt.swd.database.dto.Project.ProjectJoinDTO;
 import com.fpt.swd.database.dto.Project.UpdateProjectDTO;
 import com.fpt.swd.database.entity.Project;
 import com.fpt.swd.database.repo.ProjectRepo;
@@ -27,10 +28,10 @@ public class ProjectBusiness implements IProjectBusiness{
 
 
     @Override
-    public APIResponse<Iterable<GetProjectDTO>> getAllProject(int pageNo, int pageSize) {
-        Page<Project> dbProject=_projectRepo.findAll(PageRequest.of(pageNo, pageSize));
-        var serviceResponse = new APIResponse<Iterable<GetProjectDTO>>();
-        serviceResponse.Data=dbProject.getContent().stream().map(c->_mapper.map(c, GetProjectDTO.class)).toList();
+    public APIResponse<Iterable<ProjectJoinDTO>> getAllProject(int pageNo, int pageSize) {
+        Page<ProjectJoinDTO> dbProject=_projectRepo.findAllList(PageRequest.of(pageNo, pageSize));
+        var serviceResponse = new APIResponse<Iterable<ProjectJoinDTO>>();
+        serviceResponse.Data=dbProject.getContent().stream().map(c->_mapper.map(c, ProjectJoinDTO.class)).toList();
         serviceResponse.pagination.pageNo = dbProject.getNumber();
         serviceResponse.pagination.pageSize = dbProject.getSize();
         serviceResponse.pagination.totalElements = dbProject.getTotalElements();

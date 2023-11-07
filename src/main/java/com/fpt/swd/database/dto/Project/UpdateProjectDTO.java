@@ -11,9 +11,8 @@ import java.util.Date;
 public class UpdateProjectDTO implements Serializable{
     private int id;
     private String name;
-    private int user_id;
-    private int class_id;
     private int team_leader_id;
+    private int class_id;
     private String english_name;
     private String vietnamese_name;
     private String status;

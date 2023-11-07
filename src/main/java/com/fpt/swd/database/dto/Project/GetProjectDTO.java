@@ -8,9 +8,8 @@ import java.io.Serializable;
 @Setter
 public class GetProjectDTO implements Serializable {
     private String name;
-    private int user_id;
-    private int class_id;
     private int team_leader_id;
+    private int class_id;
     private String english_name;
     private String vietnamese_name;
     private String status;
