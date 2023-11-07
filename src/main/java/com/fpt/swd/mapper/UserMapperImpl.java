@@ -13,6 +13,6 @@ public class UserMapperImpl implements UserMapper {
         if (user == null) {
             return null;
         }
-        return new UserDto(user.getId(), user.getUsername(), null, user.getEmail(), user.getRoleId());
+        return new UserDto(user.getId(), user.getUsername(), user.getFirstName() + " " + user.getLastName(), user.getEmail(), user.getRoleId());
     }
 }
