@@ -14,5 +14,4 @@ public class UpdateAssignmentDto implements Serializable {
     private int subject_id;
     private String description;
     private String updated_by;
-    private Date updated_date;
 }

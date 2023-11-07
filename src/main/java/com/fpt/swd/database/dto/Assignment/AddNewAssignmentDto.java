@@ -14,5 +14,4 @@ public class AddNewAssignmentDto implements Serializable {
     private int subject_id;
     private String description;
     private String created_by;
-    private Date created_date;
 }
