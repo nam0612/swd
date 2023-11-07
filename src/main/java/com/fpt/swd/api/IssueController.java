@@ -4,11 +4,16 @@ import com.fpt.swd.Response.APIResponse;
 import com.fpt.swd.business.IssueBusiness.IIssueBusiness;
 import com.fpt.swd.database.dto.Issue.AddNewIssueDto;
 import com.fpt.swd.database.dto.Issue.GetIssueDto;
+import com.fpt.swd.database.dto.Issue.GetIssueVer2Dto;
 import com.fpt.swd.database.dto.Issue.UpdateIssueDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static com.fpt.swd.config.SwaggerConfig.BEARER_KEY_SECURITY_SCHEME;
 
 @RestController
 @RequestMapping(path = "/api/issue")
@@ -18,8 +23,9 @@ public class IssueController {
     public IssueController(IIssueBusiness issueBusiness){
         _issueBusiness = issueBusiness;
     }
+    @Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
     @GetMapping("GetAll")
-    public ResponseEntity<APIResponse<Iterable<GetIssueDto>>> getAllIssue
+    public ResponseEntity<APIResponse<Iterable<GetIssueVer2Dto>>> getAllIssue
             (@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo, @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize){
         return new ResponseEntity<>(_issueBusiness.GetAllIssue(pageNo, pageSize), HttpStatus.OK);
     }

@@ -3,6 +3,7 @@ package com.fpt.swd.business.IssueBusiness;
 import com.fpt.swd.Response.APIResponse;
 import com.fpt.swd.database.dto.Issue.AddNewIssueDto;
 import com.fpt.swd.database.dto.Issue.GetIssueDto;
+import com.fpt.swd.database.dto.Issue.GetIssueVer2Dto;
 import com.fpt.swd.database.dto.Issue.UpdateIssueDto;
 import com.fpt.swd.database.entity.Issue;
 import com.fpt.swd.database.repo.IIssueRepository;
@@ -28,11 +29,11 @@ public class IssueBusiness implements IIssueBusiness{
 
 
     @Override
-    public APIResponse<Iterable<GetIssueDto>> GetAllIssue(int pageNo, int pageSize) {
+    public APIResponse<Iterable<GetIssueVer2Dto>> GetAllIssue(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
-        Page<Issue> dbIssue = _issueRepository.findAll(pageable);
-        var serviceResponse = new APIResponse<Iterable<GetIssueDto>>();
-        serviceResponse.Data = dbIssue.getContent().stream().map(s -> _mapper.map(s, GetIssueDto.class)).toList();
+        Page<GetIssueVer2Dto> dbIssue = _issueRepository.findAllList(pageable);
+        var serviceResponse = new APIResponse<Iterable<GetIssueVer2Dto>>();
+        serviceResponse.Data = dbIssue.getContent().stream().map(s -> _mapper.map(s, GetIssueVer2Dto.class)).toList();
         serviceResponse.pagination.pageNo = dbIssue.getNumber();
         serviceResponse.pagination.pageSize = dbIssue.getSize();
         serviceResponse.pagination.totalElements = dbIssue.getTotalElements();
