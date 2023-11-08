@@ -23,4 +23,6 @@ public class SignUpRequest {
     @Schema(example = "user3@mycompany.com")
     @Email
     private String email;
+
+    private String phone;
 }

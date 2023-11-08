@@ -12,6 +12,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.internal.bytebuddy.utility.RandomString;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.fpt.swd.config.SwaggerConfig.BEARER_KEY_SECURITY_SCHEME;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 
 @RequiredArgsConstructor
@@ -68,11 +71,13 @@ public class UserController {
     }
 
     @Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
-    @PatchMapping
+    @PatchMapping("/changePass")
     public ResponseEntity<?> changePassword(
             @RequestBody ChangePasswordRequest request
     ) {
         userService.changePassword(request);
         return ResponseEntity.ok().build();
     }
+
+
 }

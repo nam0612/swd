@@ -11,4 +11,5 @@ public class UserDTOVer2 {
     private String firstName;
     private String lastName;
     private String email;
+    private String phoneNumber;
 }

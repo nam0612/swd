@@ -1,18 +1,25 @@
 package com.fpt.swd.business.impl;
 
 import com.fpt.swd.api.request.ChangePasswordRequest;
+import com.fpt.swd.api.request.LoginRequest;
 import com.fpt.swd.api.request.UserDto;
 import com.fpt.swd.business.UserService;
 import com.fpt.swd.database.dto.UserDTOVer2;
 import com.fpt.swd.database.entity.User;
 import com.fpt.swd.database.repo.UserRepository;
+import com.fpt.swd.enums.TokenUtils;
+import com.fpt.swd.event.OnAccountRecover;
 import com.fpt.swd.exception.UserNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,6 +30,11 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ApplicationEventPublisher eventPublisher;
+    private final RecoveryTokenRepository recoveryTokenRepository;
+    private final long resetPasswordTokenLifetime = 2;
+
+
 
 
     @Override
@@ -96,12 +108,35 @@ public class UserServiceImpl implements UserService {
     public UserDTOVer2 updateProfile(UserDTOVer2 userDto, String username) {
         User user = validateAndGetUserByUsername(username);
         if(user != null) {
-            user.setEmail(userDto.getEmail());
-            user.setFirstName(userDto.getFirstName());
-            user.setLastName(userDto.getLastName());
+            BeanUtils.copyProperties(userDto, user);
             userRepository.save(user);
             return userDto;
         }
         return null;
     }
+
+
+    @Override
+    @Transactional
+    public void recover(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if (user.isPresent())
+            return;
+        recoveryTokenRepository.deleteByUser(user.get());
+        createRecoveryTokenForUser(user.get());
+        eventPublisher.publishEvent(new OnAccountRecover(user.get()));
+    }
+
+    private String createRecoveryTokenForUser(User user) {
+        String token = TokenUtils.generateToken();
+
+        RecoveryToken recoveryToken = new RecoveryToken();
+        recoveryToken.setToken(token);
+        recoveryToken.setUser(user);
+        recoveryToken.setValidUntilInEpoch(System.currentTimeMillis() + resetPasswordTokenLifetime);
+        user.setRecoveryToken(recoveryToken);
+        recoveryTokenRepository.save(recoveryToken);
+        return token;
+    }
+
 }
