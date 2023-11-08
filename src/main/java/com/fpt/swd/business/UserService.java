@@ -28,7 +28,7 @@ public interface UserService {
 
     void deleteUser(User user);
 
-    void changePassword(ChangePasswordRequest request, Principal connectedUser);
+    void changePassword(ChangePasswordRequest request);
 
     UserDTOVer2 updateProfile(UserDTOVer2 userDto, String username);
 

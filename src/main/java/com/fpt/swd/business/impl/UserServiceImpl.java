@@ -67,8 +67,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void changePassword(ChangePasswordRequest request, Principal connectedUser) {
-        var user = (User) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();
+    public void changePassword(ChangePasswordRequest request) {
+        Optional<User> userOp = userRepository.findByUsername(request.getUsername());
+
+        if (userOp.isPresent()) {
+            throw new IllegalStateException("user name is not existed");
+        }
+
+        User user  = userOp.get();
 
         // check if the current password is correct
         if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {

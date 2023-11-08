@@ -70,10 +70,9 @@ public class UserController {
     @Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
     @PatchMapping
     public ResponseEntity<?> changePassword(
-            @RequestBody ChangePasswordRequest request,
-            Principal connectedUser
+            @RequestBody ChangePasswordRequest request
     ) {
-        userService.changePassword(request, connectedUser);
+        userService.changePassword(request);
         return ResponseEntity.ok().build();
     }
 }
