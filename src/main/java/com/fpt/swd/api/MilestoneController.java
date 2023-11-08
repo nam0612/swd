@@ -3,6 +3,7 @@ package com.fpt.swd.api;
 import com.fpt.swd.api.request.UserDto;
 import com.fpt.swd.business.MilestoneBusiness;
 import com.fpt.swd.database.dto.MilestoneDTO;
+import com.fpt.swd.database.dto.milestone.UpdateMilstone;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -29,20 +30,20 @@ public class MilestoneController {
 
     @Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
     @PutMapping ("/{id}")
-    public MilestoneDTO updateMilestone(@Valid @RequestBody MilestoneDTO milestoneDTO, @PathVariable Integer id) throws Exception {
-        return milestoneBusiness.updateMilestone(milestoneDTO, id);
+    public void updateMilestone(@RequestBody UpdateMilstone milestoneDTO, @PathVariable Integer id) throws Exception {
+         milestoneBusiness.updateMilestone(milestoneDTO, id);
     }
 
     @Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
     @PostMapping
-    public MilestoneDTO createMilestone(@Valid @RequestBody MilestoneDTO milestoneDTO) throws Exception {
-        return milestoneBusiness.createMilestone(milestoneDTO);
+    public void createMilestone(@RequestBody UpdateMilstone milestoneDTO) throws Exception {
+         milestoneBusiness.createMilestone(milestoneDTO);
     }
 
     @Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
     @PatchMapping("/{id}")
-    public MilestoneDTO deleteMilestone(@PathVariable Integer id) throws Exception{
-        return milestoneBusiness.deleteMilestone(id);
+    public void deleteMilestone(@PathVariable Integer id) throws Exception{
+         milestoneBusiness.deleteMilestone(id);
     }
 
     @Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
