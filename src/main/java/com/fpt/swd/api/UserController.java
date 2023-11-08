@@ -36,7 +36,7 @@ public class UserController {
         return userMapper.toUserDto(user);
     }
 
-//    @Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
+    @Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
     @GetMapping
     public List<UserDto> getUsers() {
         return userService.getUsers().stream()
