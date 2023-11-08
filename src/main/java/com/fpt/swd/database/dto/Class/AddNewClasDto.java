@@ -18,5 +18,4 @@ public class AddNewClasDto implements Serializable {
     private Date end_date;
     private byte status;
     private String created_by;
-    private Date created_date;
 }
