@@ -67,6 +67,8 @@ public class AuthController {
         user.setRoleId(WebSecurityConfig.USER);
         user.setProvider(OAuth2Provider.LOCAL);
         user.setPhoneNumber(signUpRequest.getPhone());
+        user.setFirstName(signUpRequest.getFirstName());
+        user.setLastName(signUpRequest.getLastName());
         return user;
     }
 
