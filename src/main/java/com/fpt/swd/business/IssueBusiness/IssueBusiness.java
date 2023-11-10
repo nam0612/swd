@@ -38,7 +38,6 @@ public class IssueBusiness implements IIssueBusiness{
         serviceResponse.pagination.pageSize = dbIssue.getSize();
         serviceResponse.pagination.totalElements = dbIssue.getTotalElements();
         serviceResponse.pagination.totalPages = dbIssue.getTotalPages();
-
         return serviceResponse;
     }
 
