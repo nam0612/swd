@@ -1,5 +1,6 @@
 package com.fpt.swd.database.entity;
 
+import com.fpt.swd.business.impl.RecoveryToken;
 import com.fpt.swd.enums.OAuth2Provider;
 import jakarta.persistence.*;
 import lombok.*;
@@ -74,6 +75,11 @@ public class User implements Serializable {
     @Column(name = "provider")
     @Enumerated(EnumType.STRING)
     private OAuth2Provider provider;
+
+
+    @OneToOne(mappedBy = "user")
+    private transient RecoveryToken recoveryToken;
+
 
     public User(String username, String password, String email, Integer role, String imageUrl, OAuth2Provider provider) {
         this.username = username;

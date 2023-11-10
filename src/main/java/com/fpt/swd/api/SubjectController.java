@@ -6,11 +6,15 @@ import com.fpt.swd.business.SubjectBusiness.SubjectBusiness;
 import com.fpt.swd.database.dto.Subject.AddSubjectDTO;
 import com.fpt.swd.database.dto.Subject.GetSubjectDTO;
 import com.fpt.swd.database.dto.Subject.UpdateSubjectDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static com.fpt.swd.config.SwaggerConfig.BEARER_KEY_SECURITY_SCHEME;
 
 @RestController
 @RequestMapping(path = "/api/subjects/")
@@ -21,7 +25,7 @@ public class SubjectController{
     public SubjectController(SubjectBusiness _subjectBusiness) {
         this._subjectBusiness = _subjectBusiness;
     }
-
+    @Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
     @GetMapping("GetAll")
     public ResponseEntity<APIResponse<Iterable<GetSubjectDTO>>> GetAllSubject(@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
                                                                               @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize ){

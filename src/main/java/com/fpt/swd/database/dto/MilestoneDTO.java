@@ -8,18 +8,12 @@ import java.io.Serializable;
 import java.util.Date;
 @Getter
 @Setter
-@Builder
-@AllArgsConstructor
 public class MilestoneDTO implements Serializable {
     private Integer  id;
     private String name;
     private String description;
-
-    @NotBlank
-    private String projectId;
-
-    @NotBlank
-    private String classId;
+    private Integer projectId;
+    private Integer classId;
     private Integer status;
     private String createdBy;
     private Date createdDate;
@@ -36,5 +30,7 @@ public class MilestoneDTO implements Serializable {
         this.projectName = projectName;
         this.className = className;
     }
+
+    public MilestoneDTO() {}
 
 }

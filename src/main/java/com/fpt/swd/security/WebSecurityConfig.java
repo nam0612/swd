@@ -36,12 +36,11 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-//                        .requestMatchers(HttpMethod.GET, "/api/movies", "/api/movies/**").hasAnyAuthority(String.valueOf(ADMIN), String.valueOf(USER))
-//                        .requestMatchers(HttpMethod.GET, "/api/users/me").hasAnyAuthority(String.valueOf(ADMIN), String.valueOf(USER))
-//                        .requestMatchers("/api/movies", "/api/movies/**").hasAnyAuthority(String.valueOf(ADMIN))
-//                        .requestMatchers("/api/users", "/api/users/**").hasAnyAuthority(String.valueOf(ADMIN))
-                        .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
-//                        .requestMatchers("/public/**", "/auth/**", "/oauth2/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/movies", "/api/movies/**").hasAnyAuthority(String.valueOf(ADMIN), String.valueOf(USER))
+                        .requestMatchers(HttpMethod.GET, "/api/users/me").hasAnyAuthority(String.valueOf(ADMIN), String.valueOf(USER))
+                        .requestMatchers("/api/movies", "/api/movies/**").hasAnyAuthority(String.valueOf(ADMIN))
+                        .requestMatchers("/api/users", "/api/users/**").hasAnyAuthority(String.valueOf(ADMIN))
+                        .requestMatchers("/public/**", "/auth/**", "/oauth2/**").permitAll()
                         .requestMatchers("/", "/error", "/csrf", "/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs", "/v3/api-docs/**").permitAll()
                         .anyRequest().authenticated())
                 .oauth2Login(oauth2Login -> oauth2Login

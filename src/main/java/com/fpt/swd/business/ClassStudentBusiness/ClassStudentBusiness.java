@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -45,6 +46,7 @@ public class ClassStudentBusiness implements IClassStudentBusiness {
     public APIResponse<Iterable<GetClassStudentDto>> AddNewClassStudent(AddNewClassStudentDto requestClassStudentDto) {
         var serviceResponse = new APIResponse<Iterable<GetClassStudentDto>>();
         ClassStudent newClassStudent = _mapper.map(requestClassStudentDto, ClassStudent.class);
+        newClassStudent.setCreated_date(new Date());
         _classStudentRepository.save(newClassStudent);
         serviceResponse.Data = _classStudentRepository.findAll().stream().map(cs -> _mapper.map(cs, GetClassStudentDto.class)).toList();
         serviceResponse.pagination = null;
@@ -58,6 +60,7 @@ public class ClassStudentBusiness implements IClassStudentBusiness {
         Optional<ClassStudent> findClassStudent = _classStudentRepository.findById(requestClassStudentDto.getId());
         if (findClassStudent.isPresent()) {
             ClassStudent existingClassStudent = findClassStudent.get();
+            existingClassStudent.setUpdated_date(new Date());
             _mapper.map(requestClassStudentDto, existingClassStudent);
             _classStudentRepository.save(existingClassStudent);
             serviceResponse.Data = _mapper.map(existingClassStudent, GetClassStudentDto.class);

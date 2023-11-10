@@ -13,5 +13,4 @@ public class AddNewClassStudentDto implements Serializable {
     private int student_id;
     private byte status;
     private String created_by;
-    private Date created_date;
 }

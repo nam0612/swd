@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -55,6 +56,7 @@ public class ClassBusiness implements IClassBusiness {
             return serviceResponse;
         }
         Class newClass = _mapper.map(requestClassDto, Class.class);
+        newClass.setCreated_date(new Date());
         _classRepository.save(newClass);
         serviceResponse.Data = _classRepository.findAll().stream().map(c -> _mapper.map(c, GetClassDto.class)).toList();
         return serviceResponse;
@@ -67,6 +69,7 @@ public class ClassBusiness implements IClassBusiness {
         Optional<Class> findClass = _classRepository.findById(requestClassDto.getId());
         if (findClass.isPresent()) {
             Class existingClass = findClass.get();
+            existingClass.setUpdated_date(new Date());
             _mapper.map(requestClassDto, existingClass);
             _classRepository.save(existingClass);
             serviceResponse.Data = _mapper.map(existingClass, GetClassDto.class);

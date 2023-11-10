@@ -14,5 +14,4 @@ public class UpdateClassStudentDto implements Serializable {
     private int student_id;
     private byte status;
     private String updated_by;
-    private Date updated_date;
 }
