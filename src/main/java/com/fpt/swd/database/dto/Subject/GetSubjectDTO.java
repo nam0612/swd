@@ -9,6 +9,7 @@ import java.io.Serializable;
 @Setter
 
 public class GetSubjectDTO implements Serializable {
+    private int id;
     private int manager_id;
     private String subject_code;
     private String subject_name;

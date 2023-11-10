@@ -25,6 +25,7 @@ public class CustomUserDetails implements OAuth2User, UserDetails {
     private String name;
     private String email;
     private String avatarUrl;
+    private String phone;
     private OAuth2Provider provider;
     private Collection<? extends GrantedAuthority> authorities;
     private Map<String, Object> attributes;

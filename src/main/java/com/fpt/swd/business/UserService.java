@@ -2,6 +2,7 @@ package com.fpt.swd.business;
 
 
 import com.fpt.swd.api.request.ChangePasswordRequest;
+import com.fpt.swd.api.request.LoginRequest;
 import com.fpt.swd.api.request.UserDto;
 import com.fpt.swd.database.dto.UserDTOVer2;
 import com.fpt.swd.database.entity.User;
@@ -28,8 +29,9 @@ public interface UserService {
 
     void deleteUser(User user);
 
-    void changePassword(ChangePasswordRequest request, Principal connectedUser);
+    void changePassword(ChangePasswordRequest request);
 
     UserDTOVer2 updateProfile(UserDTOVer2 userDto, String username);
 
+    public void recover(String email);
 }

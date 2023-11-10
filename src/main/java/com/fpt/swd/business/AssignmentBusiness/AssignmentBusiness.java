@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -46,6 +47,7 @@ public class AssignmentBusiness implements IAssignmentBusiness {
     public APIResponse<Iterable<GetAssignmentDto>> AddNewAssignment(AddNewAssignmentDto requestAssignmentDto) {
         var serviceResponse = new APIResponse<Iterable<GetAssignmentDto>>();
         Assignment newAssignment = _mapper.map(requestAssignmentDto, Assignment.class);
+        newAssignment.setCreated_date(new Date());
         _assignmentRepository.save(newAssignment);
         serviceResponse.Data = _assignmentRepository.findAll().stream().map(s -> _mapper.map(s, GetAssignmentDto.class)).toList();
         serviceResponse.pagination = null;
@@ -59,6 +61,7 @@ public class AssignmentBusiness implements IAssignmentBusiness {
         Optional<Assignment> findAssignment = _assignmentRepository.findById(requestAssignmentDto.getId());
         if (findAssignment.isPresent()) {
             Assignment existingAssignment = findAssignment.get();
+            existingAssignment.setUpdated_date(new Date());
             _mapper.map(requestAssignmentDto, existingAssignment);
             _assignmentRepository.save(existingAssignment);
             serviceResponse.Data = _mapper.map(existingAssignment, GetAssignmentDto.class);

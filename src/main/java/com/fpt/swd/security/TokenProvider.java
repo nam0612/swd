@@ -51,11 +51,11 @@ public class TokenProvider {
                 .setIssuer(TOKEN_ISSUER)
                 .setAudience(TOKEN_AUDIENCE)
                 .setSubject(user.getUsername())
-                .claim("sub", user.getId())
                 .claim("rol", roles)
                 .claim("name", user.getName())
                 .claim("preferred_username", user.getUsername())
                 .claim("email", user.getEmail())
+                .claim("phone", user.getPhone())
                 .compact();
     }
 
