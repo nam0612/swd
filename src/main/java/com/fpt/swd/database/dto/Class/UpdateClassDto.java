@@ -18,5 +18,4 @@ public class UpdateClassDto implements Serializable {
     private Date end_date;
     private byte status;
     private String updated_by;
-    private Date updated_date;
 }

@@ -34,6 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         customUserDetails.setEmail(user.getEmail());
         customUserDetails.setAuthorities(authorities);
         customUserDetails.setName(user.getFirstName() + " " + user.getLastName());
+        customUserDetails.setPhone(user.getPhoneNumber());
         return customUserDetails;
     }
 }

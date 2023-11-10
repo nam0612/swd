@@ -19,6 +19,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/auth")
@@ -63,6 +66,14 @@ public class AuthController {
         user.setEmail(signUpRequest.getEmail());
         user.setRoleId(WebSecurityConfig.USER);
         user.setProvider(OAuth2Provider.LOCAL);
+        user.setPhoneNumber(signUpRequest.getPhone());
+        user.setFirstName(signUpRequest.getFirstName());
+        user.setLastName(signUpRequest.getLastName());
         return user;
+    }
+
+    @RequestMapping(method = POST, value = "/recover")
+    public void recover(@RequestBody String email) {
+        userService.recover(email);
     }
 }
