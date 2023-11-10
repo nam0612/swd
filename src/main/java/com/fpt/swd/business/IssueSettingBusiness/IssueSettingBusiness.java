@@ -3,6 +3,7 @@ package com.fpt.swd.business.IssueSettingBusiness;
 import com.fpt.swd.Response.APIResponse;
 import com.fpt.swd.database.dto.IssueSetting.AddNewIssueSettingDto;
 import com.fpt.swd.database.dto.IssueSetting.GetIssueSettingDto;
+import com.fpt.swd.database.dto.IssueSetting.GetIssueSettingVer2Dto;
 import com.fpt.swd.database.dto.IssueSetting.UpdateIssueSettingDto;
 import com.fpt.swd.database.entity.IssueSetting;
 import com.fpt.swd.database.repo.IIssueSettingRepository;
@@ -25,11 +26,11 @@ public class IssueSettingBusiness implements IIssueSettingBusiness{
         _mapper = map;
     }
     @Override
-    public APIResponse<Iterable<GetIssueSettingDto>> GetAllIssueSetting(int pageNo, int pageSize) {
+    public APIResponse<Iterable<GetIssueSettingVer2Dto>> GetAllIssueSetting(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
-        Page<IssueSetting> dbIssue = _issueSettingRepository.findAll(pageable);
-        var serviceResponse = new APIResponse<Iterable<GetIssueSettingDto>>();
-        serviceResponse.Data = dbIssue.getContent().stream().map(s -> _mapper.map(s, GetIssueSettingDto.class)).toList();
+        Page<GetIssueSettingVer2Dto> dbIssue = _issueSettingRepository.findAllList(pageable);
+        var serviceResponse = new APIResponse<Iterable<GetIssueSettingVer2Dto>>();
+        serviceResponse.Data = dbIssue.getContent().stream().map(s -> _mapper.map(s, GetIssueSettingVer2Dto.class)).toList();
         serviceResponse.pagination.pageNo = dbIssue.getNumber();
         serviceResponse.pagination.pageSize = dbIssue.getSize();
         serviceResponse.pagination.totalElements = dbIssue.getTotalElements();

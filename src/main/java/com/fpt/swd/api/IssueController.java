@@ -29,18 +29,22 @@ public class IssueController {
             (@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo, @RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize){
         return new ResponseEntity<>(_issueBusiness.GetAllIssue(pageNo, pageSize), HttpStatus.OK);
     }
+    @Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
     @GetMapping(path="GetIssue/{issueId}")
     public ResponseEntity<APIResponse<GetIssueDto>> GetIssue(@PathVariable("issueId") int issueId){
         return new ResponseEntity<>(_issueBusiness.GetIssue(issueId), HttpStatus.OK);
     }
+    @Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
     @PostMapping("AddNew")
     public ResponseEntity<APIResponse<Iterable<GetIssueDto>>> AddNewIssue(@RequestBody AddNewIssueDto newIssue){
         return new ResponseEntity<>(_issueBusiness.AddNewIssue(newIssue), HttpStatus.CREATED);
     }
+    @Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
     @PutMapping("Update")
     public ResponseEntity<APIResponse<GetIssueDto>> UpdateIssue(@RequestBody UpdateIssueDto newIssue){
         return new ResponseEntity<>(_issueBusiness.UpdateIssue(newIssue), HttpStatus.OK);
     }
+    @Operation(security = {@SecurityRequirement(name = BEARER_KEY_SECURITY_SCHEME)})
     @DeleteMapping(path = "Delete/{issueId}")
     @ResponseStatus(value= HttpStatus.NOT_FOUND)
     public ResponseEntity<APIResponse<Iterable<GetIssueDto>>> DeleteIssue(@PathVariable("issueId") int issueId){
