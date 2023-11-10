@@ -7,6 +7,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class GetProjectDTO implements Serializable {
+    private int id;
     private String name;
     private int user_id;
     private int class_id;
