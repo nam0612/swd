@@ -110,6 +110,7 @@ public class UserController {
         user.setPhoneNumber(signUpRequest.getPhone());
         user.setFirstName(signUpRequest.getFirstName());
         user.setLastName(signUpRequest.getLastName());
+        user.setRoleId(signUpRequest.getRoleId());
         return user;
     }
 

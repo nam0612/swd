@@ -29,4 +29,6 @@ public class SignUpRequest {
     private String firstName;
 
     private String lastName;
+
+    private Integer roleId;
 }
